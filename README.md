@@ -1,19 +1,5 @@
-这个项目是基于开源项目https://github.com/ankush-me/SynthText修改的
-This project is based on the open-source project https://github.com/ankush-me/SynthText
-原项目仅仅提供英文的文字的生成
-It only provides the method to generate English text images in the original project
-我在这里增加了中文的生成方法，添加了中文字库
-I add the method to generate Chinese ones.
-以及在cut.py中，会将文字裁剪出来，并且将其对应的label保存下来
-cut.py can cut text out as isolate images and save their corresponding labels.
-裁剪好的样例图片存放在cut-pics压缩包中
-Sample cut-out images could be seen in tar "cut-pics"
-
--By CatWang
-
-以下原内容
-
-
+# 依赖
+## numpy 版本为1.11.0
 
 #SynthText
 Code for generating synthetic text images as described in ["Synthetic Data for Text Localisation in Natural Images", Ankush Gupta, Andrea Vedaldi, Andrew Zisserman, CVPR 2016](http://www.robots.ox.ac.uk/~vgg/data/scenetext/).
