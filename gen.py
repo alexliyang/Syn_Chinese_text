@@ -93,41 +93,44 @@ def main(viz=False):
   start_idx,end_idx = 0,min(NUM_IMG, N)
 
   RV3 = RendererV3(DATA_PATH,max_time=SECS_PER_IMG)
-  for i in xrange(start_idx,end_idx):
-    imname = imnames[i]
-    try:
-      # get the image:
-      img = Image.fromarray(db['image'][imname][:])
-      # get the pre-computed depth:
-      #  there are 2 estimates of depth (represented as 2 "channels")
-      #  here we are using the second one (in some cases it might be
-      #  useful to use the other one):
-      depth = db['depth'][imname][:].T
-      depth = depth[:,:,1]
-      # get segmentation:
-      seg = db['seg'][imname][:].astype('float32')
-      area = db['seg'][imname].attrs['area']
-      label = db['seg'][imname].attrs['label']
+  for j in range(3000):
+      print(j)
+      for i in xrange(start_idx,end_idx):
+        imname = imnames[i]
+        try:
+          # get the image:
+          img = Image.fromarray(db['image'][imname][:])
+          # get the pre-computed depth:
+          #  there are 2 estimates of depth (represented as 2 "channels")
+          #  here we are using the second one (in some cases it might be
+          #  useful to use the other one):
+          depth = db['depth'][imname][:].T
+          depth = depth[:,:,1]
+          # get segmentation:
+          seg = db['seg'][imname][:].astype('float32')
+          area = db['seg'][imname].attrs['area']
+          label = db['seg'][imname].attrs['label']
 
-      # re-size uniformly:
-      sz = depth.shape[:2][::-1]
-      img = np.array(img.resize(sz,Image.ANTIALIAS))
-      seg = np.array(Image.fromarray(seg).resize(sz,Image.NEAREST))
+          # re-size uniformly:
+          sz = depth.shape[:2][::-1]
+          img = np.array(img.resize(sz,Image.ANTIALIAS))
+          seg = np.array(Image.fromarray(seg).resize(sz,Image.NEAREST))
 
-      print colorize(Color.RED,'%d of %d'%(i,end_idx-1), bold=True)
-      res = RV3.render_text(img,depth,seg,area,label,
-                            ninstance=INSTANCE_PER_IMAGE,viz=viz)
-      if len(res) > 0:
-        # non-empty : successful in placing text:
-        add_res_to_db(imname,res,out_db)
-      # visualize the output:
-      if viz:
-        if 'q' in raw_input(colorize(Color.RED,'continue? (enter to continue, q to exit): ',True)):
-          break
-    except:
-      traceback.print_exc()
-      print colorize(Color.GREEN,'>>>> CONTINUING....', bold=True)
-      continue
+          print colorize(Color.RED,'%d of %d'%(i,end_idx-1), bold=True)
+          res = RV3.render_text(img,depth,seg,area,label,
+                                ninstance=INSTANCE_PER_IMAGE,viz=viz)
+          if len(res) > 0:
+            # non-empty : successful in placing text:
+            add_res_to_db(str(j)+imname,res,out_db)
+          # visualize the output:
+          if viz:
+            if 'q' in raw_input(colorize(Color.RED,'continue? (enter to continue, q to exit): ',True)):
+              break
+        except:
+          traceback.print_exc()
+          print colorize(Color.GREEN,'>>>> CONTINUING....', bold=True)
+          continue
+
   db.close()
   out_db.close()
 
@@ -137,4 +140,12 @@ if __name__=='__main__':
   parser = argparse.ArgumentParser(description='Genereate Synthetic Scene-Text Images')
   parser.add_argument('--viz',action='store_true',dest='viz',default=False,help='flag for turning on visualizations')
   args = parser.parse_args()
+  db = get_data()
+  '''for key in db.keys():
+      print(db[key].name)
+      for z in db[key].keys():
+          print(db[key][z].name)
+          print(db[key][z].shape)'''
+      #print(db[key].shape)
+      #print(f[key].value)
   main(args.viz)
