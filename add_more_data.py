@@ -5,8 +5,11 @@ import os.path as osp
 import wget, tarfile
 import cv2
 
+DATA_PATH = 'data'
+DB_FNAME = osp.join(DATA_PATH,'dset.h5')
 
-
+def get_data(path):
+  return h5py.File(path,'r')
 
 def add_more_data_into_dset(DB_FNAME,more_img_file_path,more_depth_path,more_seg_path):
   db=h5py.File(DB_FNAME,'wb+')
