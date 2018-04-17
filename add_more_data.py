@@ -4,6 +4,7 @@ import os, sys, traceback
 import os.path as osp
 import wget, tarfile
 import cv2
+from PIL import Image
 
 DATA_PATH = 'data'
 DB_FNAME = osp.join(DATA_PATH,'dset.h5')
