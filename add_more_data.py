@@ -21,7 +21,7 @@ def add_more_data_into_dset(DB_FNAME,more_img_file_path,more_depth_path,more_seg
   for imname in os.listdir(more_img_file_path):
     if imname.endswith('.jpg'):
       full_path=more_img_file_path+imname
-      print full_path,imname
+      print(full_path,imname)
       
       j=Image.open(full_path)
       imgSize=j.size
@@ -42,8 +42,8 @@ def add_more_data_into_dset(DB_FNAME,more_img_file_path,more_depth_path,more_seg
 DB_FNAME = '/home/yuz/lijiahui/syntheticdata/SynthText/more_data_from_off/dset_8000.h5'
 
 #add more data into the dset
-more_depth_path='/home/yuz/lijiahui/syntheticdata/SynthText/more_data_from_off/depth.h5'
-more_seg_path='/home/yuz/lijiahui/syntheticdata/SynthText/more_data_from_off/seg.h5'
-more_img_file_path='/home/yuz/lijiahui/syntheticdata/SynthText/more_data_from_off/bg_img/'
+more_depth_path='depth.h5'
+more_seg_path='seg.h5'
+more_img_file_path='bg_img/'
 
 add_more_data_into_dset(DB_FNAME,more_img_file_path,more_depth_path,more_seg_path)
